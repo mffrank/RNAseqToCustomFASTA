@@ -36,6 +36,7 @@ FPKMhist <- function(fpkm_table){
 #' @param fpkm_table Table with FPKM vaules of (multiple) samples
 #' @param id_table table with ids of both types
 #' @import ggplot2
+#' @depends ggplot2
 #' @export
 
 FPKMhist <- function(fpkm_table, id_table){

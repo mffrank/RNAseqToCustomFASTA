@@ -2,7 +2,7 @@
 #' This Uses the import function from CustomProDB in combination with BioMart and can take a few hours.
 #' @param annotation_path Path to a folder where Annotation files should be stored.
 #' @import customProDB
-#' @import biomaRt::useMart
+#' @import biomaRt
 #' @export
 
 
