@@ -1,0 +1,11 @@
+Package: RNAseqToCustomFASTA
+Type: Package
+Title: Produce Custom Protein Fasta Databases from RNAseq Data
+Version: 0.1.0
+Authors@R: person("Max", "Frank", email = "mfrank@student.ethz.ch", role = c("aut", "cre"))
+Description: Takes expression values, splice junctions, SNPs and INDELs as input
+    to produce a protein fasta file that can be used to search Mass spectrometry
+    results.
+License: MIT
+LazyData: TRUE
+RoxygenNote: 5.0.1
