@@ -2,14 +2,17 @@
 % Please edit documentation in R/getCufflinksFPKM.R
 \name{getCufflinksFPKM}
 \alias{getCufflinksFPKM}
-\title{Takes Cufflinks gtf output files as input and outputs a named numeric vector (names = Transcript/gene id, value = FPKM)}
+\title{Import FPKM from Cufflinks}
 \usage{
-getCufflinksFPKM(gtf_file_path)
+getCufflinksFPKM(files, filetype = c("isoforms.fpkm_tracking",
+  "genes.fpkm_tracking", "GTF"))
 }
 \arguments{
-\item{gtf_file_path}{Path to GTF file that is output by cufflinks}
+\item{files}{Path to Cufflinks files to import. Can be isoforms.fpkm_tracking, genes.fpkm_tracking, or GTF}
+
+\item{filetype}{possible values : "isoforms.fpkm_tracking", "genes.fpkm_tracking", "GTF"}
 }
 \description{
-Takes Cufflinks gtf output files as input and outputs a named numeric vector (names = Transcript/gene id, value = FPKM)
+Takes multiple Cufflinks output files as input and outputs a data.frame with FPKM values
 }
 

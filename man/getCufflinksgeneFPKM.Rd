@@ -4,18 +4,12 @@
 \alias{getCufflinksgeneFPKM}
 \title{Takes Cufflinks genes.fpkm_tracking output files as input and outputs a named numeric vector (names = Transcript/gene id, value = FPKM)}
 \usage{
-getCufflinksgeneFPKM(isoforms.fpkm_tracking_file_path)
-
-getCufflinksgeneFPKM(isoforms.fpkm_tracking_file_path)
+getCufflinksgeneFPKM(genes.fpkm_tracking_file_path)
 }
 \arguments{
-\item{genes.fpkm_tracking_file_path}{Path to GTF file that is output by cufflinks}
-
 \item{genes.fpkm_tracking_file_path}{Path to GTF file that is output by cufflinks}
 }
 \description{
 Takes Cufflinks genes.fpkm_tracking output files as input and outputs a named numeric vector (names = Transcript/gene id, value = FPKM)
-
-Takes Cufflinks isoforms.fpkm_tracking output files as input and outputs a named numeric vector (names = Transcript/gene id, value = FPKM)
 }
 
