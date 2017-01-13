@@ -4,27 +4,17 @@
 \alias{FPKMhist}
 \title{Output Histogram of FPKM values}
 \usage{
-FPKMhist(fpkm_table, id_table)
-
-FPKMhist(fpkm_table, id_table)
+FPKMhist(fpkm_table)
 }
 \arguments{
 \item{fpkm_table}{Table with FPKM vaules of (multiple) samples}
 
-\item{id_table}{table with ids of both types}
-
 \item{mapping_table}{table with ids of both types}
-
-\item{fpkm_table}{Table with FPKM vaules of (multiple) samples}
 }
 \description{
 Output Histogram of FPKM values
-
-Output Histogram of FPKM values for protein-coding vs. non protein coding
 }
 \details{
-Plots a Histogram with the 30% quantile as a vertical line
-
 Plots a Histogram with the 30% quantile as a vertical line
 }
 

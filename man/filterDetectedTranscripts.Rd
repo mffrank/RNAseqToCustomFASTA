@@ -4,10 +4,12 @@
 \alias{filterDetectedTranscripts}
 \title{Filter FPKM Table}
 \usage{
-filterDetectedTranscripts(fpkm_table)
+filterDetectedTranscripts(fpkm_table, quiet = FALSE)
 }
 \arguments{
 \item{fpkm_table}{Table with FPKM vaules of (multiple) samples}
+
+\item{quiet}{print how many rows are filtered, default FALSE}
 }
 \description{
 Filter FPKM Table
