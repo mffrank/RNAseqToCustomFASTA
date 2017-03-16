@@ -4,7 +4,8 @@
 \alias{FPKMsummaryReport}
 \title{Print Pdf with plots to help evaluate FPKM distribution}
 \usage{
-FPKMsummaryReport(fpkm_table, id_table, print = TRUE)
+FPKMsummaryReport(fpkm_table, id_table, qt = c(0.2, 0.22, 0.25, 0.3),
+  print = TRUE)
 }
 \arguments{
 \item{fpkm_table}{Table with FPKM vaules of (multiple) samples}

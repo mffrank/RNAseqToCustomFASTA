@@ -4,7 +4,7 @@
 \alias{FPKMhistProteincoding}
 \title{Output Histogram of FPKM values for protein-coding vs. non protein coding}
 \usage{
-FPKMhistProteincoding(fpkm_table, id_table)
+FPKMhistProteincoding(fpkm_table, id_table, qt)
 }
 \arguments{
 \item{fpkm_table}{Table with FPKM vaules of (multiple) samples}

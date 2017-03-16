@@ -104,7 +104,7 @@ getAltSpliceProteins <- function(jun, exon, procodingseq){
           sep = "")
   })
 
-  junc_seq$spliced_aa <- translate(DNAStringSet(junc_seq$spliced_seq),if.fuzzy.codon = "solve")
+  junc_seq$spliced_aa <- Biostrings::translate(DNAStringSet(junc_seq$spliced_seq),if.fuzzy.codon = "solve")
   # Fuzzy translations are skipped
   junc_seq$spliced_aa <- gsub("X", "", junc_seq$spliced_aa)
   # Proteins with stop codons are cleaved
@@ -113,6 +113,9 @@ getAltSpliceProteins <- function(jun, exon, procodingseq){
   junc_seq <- junc_seq[!duplicated(junc_seq$spliced_aa),]
   # Resulting sequences with less than 7 AA are deleted
   junc_seq <- subset(junc_seq, nchar(junc_seq$spliced_aa) >=7)
+  # Add gene name
+  dict <- unique(exon_cds[,c("tx_name", "gene_name")])
+  junc_seq <- merge(junc_seq, dict, all.x = T)
 
   header <- sapply(1:nrow(junc_seq), function(i){
     if(junc_seq$strand[i] == "-"){
@@ -121,11 +124,11 @@ getAltSpliceProteins <- function(jun, exon, procodingseq){
       splice_mar <- junc_seq[i,c("cds_s2coding","cds_e1coding")]
     }
     paste0(junc_seq$pro_name[i],"_", min(splice_mar), ":", max(splice_mar), " ALTSPLICEJUNC", i, "|",
-                     junc_seq$tx_name[i], "|detected in ", junc_seq$cov[i], " samples")
+                     junc_seq$tx_name[i], "|", junc_seq$gene_name[i], "|detected in ", junc_seq$cov[i], " samples")
   })
 
   output <- cbind(header, junc_seq$spliced_aa)
-
+  return(output)
 }
 
 
@@ -221,9 +224,9 @@ OutputNovelJun <- function(junction_type, genome,
                              'coding'=as.data.frame(seqs)[, 1])
   #save(junpepcoding, file=outfile_c)
 
-  peptides_r1 <- translate(seqs)
-  peptides_r2 <- translate(subseq(seqs, start=2))
-  peptides_r3 <- translate(subseq(seqs, start=3))
+  peptides_r1 <- Biostrings::translate(seqs)
+  peptides_r2 <- Biostrings::translate(subseq(seqs, start=2))
+  peptides_r3 <- Biostrings::translate(subseq(seqs, start=3))
 
   junpos_rna_p1 <- ifelse(novel_junc_new[, 'strand'] == '+',
                           as.numeric(novel_junc_new[, 'part1_len']),

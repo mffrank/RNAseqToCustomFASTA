@@ -4,7 +4,7 @@
 \alias{FPKMhist}
 \title{Output Histogram of FPKM values}
 \usage{
-FPKMhist(fpkm_table)
+FPKMhist(fpkm_table, qt)
 }
 \arguments{
 \item{fpkm_table}{Table with FPKM vaules of (multiple) samples}

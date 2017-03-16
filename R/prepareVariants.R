@@ -54,7 +54,8 @@ getSNVandINDEL <- function(granges_variants, exon_annotation, procodingseq){
   codingseq_indel <- procodingseq[procodingseq[, 'tx_id'] %in% txlist_indel, ]
 
   return(list(postable_snv = postable_snv, SNV_tab = snvtab,
-              postable_indel = postable_indel, codingseq_indel = codingseq_indel))
+              postable_indel = postable_indel, codingseq_indel = codingseq_indel,
+              snvvcf = snvvcf, indelvcf = indelvcf))
 }
 
 #' Generate a Variant Summary Report
@@ -72,8 +73,8 @@ getSNVandINDEL <- function(granges_variants, exon_annotation, procodingseq){
 
 VariantSummaryReport <- function(snv_and_indel, ids, txdb, print = TRUE){
 
-  SNVloc <- Varlocation(snv_and_indel$postable_snv,txdb,ids)
-  indelloc <- Varlocation(snv_and_indel$postable_indel,txdb,ids)
+  SNVloc <- Varlocation(snv_and_indel$snvvcf,txdb,ids)
+  indelloc <- Varlocation(snv_and_indel$indelvcf,txdb,ids)
   output <- list(SNVloc = table(SNVloc[,'location']),
                  INDELloc = table(indelloc[,'location']))
 

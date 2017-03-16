@@ -76,7 +76,7 @@ getCufflinksFPKM <- function(files, filetype = c("isoforms.fpkm_tracking", "gene
     } else{
       stop(paste("Please specify valid filetype"))
     }
-    fpkm[[sample_name]] <- hela_fpkm[[sample_name]][sort(names(hela_fpkm[[sample_name]]))]
+    fpkm[[sample_name]] <- fpkm[[sample_name]][sort(names(fpkm[[sample_name]]))]
   }
   fpkm_table <- as.data.frame(do.call(cbind, fpkm))
   fpkm_table <- fpkm_table[-which(duplicated(rownames(fpkm_table))),]

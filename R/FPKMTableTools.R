@@ -21,10 +21,10 @@ makeDict <- function(ids, mapping_table, query_id_type, map_id_type){
 #' @import ggplot2
 #' @export
 
-FPKMhist <- function(fpkm_table){
+FPKMhist <- function(fpkm_table, qt){
   fpkm_table$average_FPKM <- apply(fpkm_table, 1,mean)
   fpkm_table_measured <- fpkm_table[fpkm_table$average > 0,]
-  qt <- c(0.2,0.22,0.25,0.3)
+  # qt <- c(0.2,0.22,0.25,0.3)
   cutoffs <- data.frame(Quantile = factor(qt), val = quantile(fpkm_table_measured$average_FPKM,qt))
 
   # Plot FPKM histogram
@@ -42,13 +42,13 @@ FPKMhist <- function(fpkm_table){
 #' @import ggplot2
 #' @export
 
-FPKMhistProteincoding <- function(fpkm_table, id_table){
+FPKMhistProteincoding <- function(fpkm_table, id_table, qt){
   fpkm_table$average_FPKM <- apply(fpkm_table, 1,mean)
   fpkm_table_measured <- fpkm_table[fpkm_table$average > 0,]
   dict <- makeDict(rownames(fpkm_table), id_table, "tx_name", "pro_name")
   fpkm_table$protein_id <- dict[rownames(fpkm_table)]
   fpkm_table$protein_coding <- !fpkm_table$protein_id == ""
-  qt <- c(0.2,0.22,0.25,0.3)
+  # qt <- c(0.2,0.22,0.25,0.3)
   cutoffs <- data.frame(Quantile = factor(qt), val = quantile(fpkm_table_measured$average_FPKM,qt))
   # Plot FPKM histogram
   m <- ggplot2::ggplot(fpkm_table[fpkm_table$average_FPKM > 10^-5,], aes(average_FPKM))
@@ -85,9 +85,9 @@ plotSDvsMeanExpression <- function(fpkm_table){
 #'  or returned as list of ggplot objects
 #' @export
 
-FPKMsummaryReport <- function(fpkm_table, id_table, print = TRUE){
-  a <- FPKMhist(fpkm_table = fpkm_table)
-  b <- FPKMhistProteincoding(fpkm_table = fpkm_table, id_table = id_table)
+FPKMsummaryReport <- function(fpkm_table, id_table, qt = c(0.2,0.22,0.25,0.3), print = TRUE){
+  a <- FPKMhist(fpkm_table = fpkm_table, qt)
+  b <- FPKMhistProteincoding(fpkm_table = fpkm_table, id_table = id_table, qt)
   c <- plotSDvsMeanExpression(fpkm_table = fpkm_table)
   output <- list(p1 = a, p2 = b, p3 = c)
   if(print){

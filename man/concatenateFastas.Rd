@@ -4,7 +4,8 @@
 \alias{concatenateFastas}
 \title{Concatenate all fastas in a Folder.}
 \usage{
-concatenateFastas(path, pattern = "\\\\.fa", outfile = "combined.fasta")
+concatenateFastas(path, pattern = "\\\\.fa", outfile = "combined.fasta",
+  addcRAP = TRUE, addiRT = TRUE)
 }
 \arguments{
 \item{path}{Path to file containing folder}
@@ -12,6 +13,10 @@ concatenateFastas(path, pattern = "\\\\.fa", outfile = "combined.fasta")
 \item{pattern}{Pattern used to grep filenames (default: ".fa")}
 
 \item{outfile}{Name of the combined file.}
+
+\item{addcRAP}{logical, Should cRAP and affinity tag sequences be appended}
+
+\item{addiRT}{logical, Should iRT peptides be appended}
 }
 \details{
 Can be used to produce a single Fasta ready for library generation.
