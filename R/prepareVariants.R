@@ -68,6 +68,7 @@ getSNVandINDEL <- function(granges_variants, exon_annotation, procodingseq){
 #' @param print boolean, should the result be printed in working directory as pdf
 #' or be returned as a list.
 #' @import customProDB
+#' @import ggplot2
 #' @export
 
 
@@ -75,14 +76,41 @@ VariantSummaryReport <- function(snv_and_indel, ids, txdb, print = TRUE){
 
   SNVloc <- Varlocation(snv_and_indel$snvvcf,txdb,ids)
   indelloc <- Varlocation(snv_and_indel$indelvcf,txdb,ids)
-  output <- list(SNVloc = table(SNVloc[,'location']),
-                 INDELloc = table(indelloc[,'location']))
+  output <- list(SNV = table(SNVloc[,'location']),
+                 INDEL = table(indelloc[,'location']))
 
   if(print){
     pdf("Variant_summary_report.pdf", width = 6, height = 4)
-    for(i in 1:length(output)){
-      print(output[[i]])
-    }
+    # SNV's
+    plot_df <- data.table(Position = names(output[[1]][-3]), SNVs = as.numeric(output[[1]][-3]), AA_Impact = FALSE)
+    coding_df <- data.table(Position = "Coding", 
+                            SNVs =c(nrow(unique(snv_and_indel$SNV_tab[snv_and_indel$SNV_tab$vartype == "synonymous",c("pos", "chr")])),
+                                    nrow(unique(snv_and_indel$SNV_tab[snv_and_indel$SNV_tab$vartype == "non-synonymous",c("pos", "chr")]))),
+                            AA_Impact = c(FALSE, TRUE))
+    plot_df <- rbind(plot_df, coding_df)
+    p <- ggplot(plot_df) + 
+      geom_bar(aes(x=Position, y=SNVs, fill = AA_Impact), stat = "identity") + 
+      ggtitle(paste0("Location of ", names(output)[1],"s")) +
+      theme(axis.text.x = element_text(angle=30, hjust=1, vjust=1)) +
+      ylab(paste0("# of ", names(output[1])))
+    print(p)  
+    # Indels
+    plot_df2 <- data.table(Position = names(output[[2]]), SNVs = as.numeric(output[[2]]),
+                          AA_Impact = c(F,F,T,F,F,F,F))
+    p2 <- ggplot(plot_df2) + 
+      geom_bar(aes(x=Position, y=SNVs, fill = AA_Impact), stat = "identity") + 
+      ggtitle(paste0("Location of ", names(output)[2],"s")) +
+      theme(axis.text.x = element_text(angle=30, hjust=1, vjust=1)) +
+      ylab(paste0("# of ", names(output[2])))
+    
+    # pl <- rbind(plot_df[, Variation_type := "SNV"], plot_df2[, Variation_type := "INDEL"])
+    # p <- ggplot(pl) + 
+    #   geom_bar(aes(x=Position, y=SNVs, fill = AA_Impact), stat = "identity") + 
+    #   ggtitle(paste0("Location of ", names(output)[2],"s")) +
+    #   theme(axis.text.x = element_text(angle=30, hjust=1, vjust=1)) +
+    #   ylab(paste0("# of ", names(output[2]))) +
+    #   facet_grid(. ~ Variation_type)
+    print(p2)  
     dev.off()
   } else{
     return(output)
