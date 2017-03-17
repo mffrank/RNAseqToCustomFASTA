@@ -98,7 +98,7 @@ VariantSummaryReport <- function(snv_and_indel, ids, txdb, print = TRUE){
     plot_df2 <- data.table(Position = names(output[[2]]), SNVs = as.numeric(output[[2]]),
                           AA_Impact = c(F,F,T,F,F,F,F))
     p2 <- ggplot(plot_df2) + 
-      geom_bar(aes(x=Position, y=SNVs, fill = AA_Impact), stat = "identity") + 
+      geom_p(aes(x=Position, y=SNVs, fill = AA_Impact), stat = "identity") + 
       ggtitle(paste0("Location of ", names(output)[2],"s")) +
       theme(axis.text.x = element_text(angle=30, hjust=1, vjust=1)) +
       ylab(paste0("# of ", names(output[2])))
@@ -120,3 +120,23 @@ VariantSummaryReport <- function(snv_and_indel, ids, txdb, print = TRUE){
   table(indelloc[,'location'])
 
 }
+#' Plot the overlap of identified Variants between replicates
+#' @param vcf_dir Path to folder with all replicate vcf files
+#' @param pattern pattern to match
+#' @import data.table
+#' @import vennDiagram
+#' @export
+
+plotSNVReplicateOverlap <- function(vcf_dir = vcf_directory, pattern = ".vcf$", outfile = "SNVReplicate_overlap.tiff"){
+  files <- list.files(vcf_dir, pattern = pattern)
+  vcfs <- lapply(paste0(vcf_dir,"/",files), function(x) fread(x, sep = "\t", na.strings = "#", skip = "CHROM"))
+  vennlist <- lapply(vcfs, function(x) paste0(x$'#CHROM', x$POS))
+  names(vennlist) <- paste0("Rep. ", seq_along(vennlist))
+  venn.diagram(vennlist,
+               filename = outfile,
+               print.mode = "raw", fill = c("red", "green"), alpha = 0.5,
+               cex = 2.5, margin = 0.06, cat.cex = 2.5, cat.dist = c(0.06,0.06), lty ="blank")
+}
+
+
+
