@@ -200,6 +200,14 @@ saveMappingTable <- function(path, pattern = "\\.fa", outfile = "header_mapping_
     star_end_pos <- which(substr(fasta_list[[i]]$sequence,nchar(fasta_list[[i]]$sequence),
                                  nchar(fasta_list[[i]]$sequence)) == "*")
     fasta_list[[i]][star_end_pos,"sequence"] <- gsub("\\*","",fasta_list[[i]]$sequence[star_end_pos])
+    removeStars <- function(sequence){
+      
+    
+    star_end_pos <- which(substr(sequence,nchar(sequence),
+                                 nchar(sequence)) == "*")
+    sequence[star_end_pos] <- gsub("\\*","",sequence[star_end_pos])
+    return(sequence)
+    }
   }
 
   # message("Mapping headers to gene level...")
