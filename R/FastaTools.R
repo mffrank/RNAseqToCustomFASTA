@@ -201,8 +201,8 @@ saveMappingTable <- function(path, pattern = "\\.fa", outfile = "header_mapping_
                                  nchar(fasta_list[[i]]$sequence)) == "*")
     fasta_list[[i]][star_end_pos,"sequence"] <- gsub("\\*","",fasta_list[[i]]$sequence[star_end_pos])
     removeStars <- function(sequence){
-      
-    
+
+
     star_end_pos <- which(substr(sequence,nchar(sequence),
                                  nchar(sequence)) == "*")
     sequence[star_end_pos] <- gsub("\\*","",sequence[star_end_pos])
@@ -272,6 +272,51 @@ saveMappingTable <- function(path, pattern = "\\.fa", outfile = "header_mapping_
   return(fasta_list)
 }
 
+#' @title Finish a raw fasta file for analysis
+#' @details Can be used to produce a single Fasta ready for library generation.
+#' @param file PName of the input file
+#' @param outfile Name of the combined file.
+#' @param removeStars logical, Whether to remove the stars at sequence ends
+#' @param addcRAP logical, Should cRAP and affinity tag sequences be appended
+#' @param addiRT logical, Should iRT peptides be appended
+#' @import seqinr
+#' @import data.table
+#' @export
+
+finishFasta <- function(file, outfile = paste0(file,"iRT_cRAP.fasta"), removeStars = T, addcRAP = TRUE, addiRT = TRUE){
+  fasta <- readLines(file)
+  closeAllConnections()
+
+  fasta <- data.table(header = fasta[seq(1,length(fasta),by = 2)],
+                           sequence = fasta[seq(2,length(fasta),by = 2)],
+                           stringsAsFactors = F)
+
+  # Remove stars at end positions
+  if(removeStars){
+    message("Removing stars at sequence ends...")
+    star_end_pos <- which(substr(fasta$sequence,nchar(fasta$sequence),
+                                 nchar(fasta$sequence)) == "*")
+    fasta[star_end_pos,"sequence"] <- gsub("\\*","",fasta$sequence[star_end_pos])
+  }
+
+  fasta_df <- fasta
+  if(addiRT){
+    iRT <- RNAseqToCustomFASTA:::iRT
+    message("Adding iRT peptides...")
+    fasta_df <- rbind(fasta_df, iRT)
+  }
+  if(addcRAP){
+    cRap_tags <- RNAseqToCustomFASTA:::cRap_tags
+    message("Adding cRAP peptides...")
+    fasta_df <- rbind(fasta_df, cRap_tags)
+  }
+  message("Writing output...")
+  fasta_df$header <- as.character(fasta_df$header)
+  fasta_df$sequence <- as.character(fasta_df$sequence)
+  fasta_df$header <- substr(fasta_df$header,2,nchar(fasta_df$header))
+  write.fasta(sequences = as.list(fasta_df$sequence), names = fasta_df$header,
+              as.string = TRUE, file.out = outfile)
+}
 
 
 
