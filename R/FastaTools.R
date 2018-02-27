@@ -87,15 +87,15 @@ concatenateFastas <- function(path, pattern = "\\.fa", outfile = "combined.fasta
 
   fasta_df[, c("gene", "Isoform", "header_old") := NULL]
   # @TODO get this into data loading
-  iRT <- readRDS("Y:/Master_Project/src/iRT.rda")
-  cRap_tags <- readRDS("Y:/Master_Project/src/cRAP_tags.rda")
+  iRT <- RNAseqToCustomFASTA:::iRT
+  cRap_tags <- RNAseqToCustomFASTA:::cRap_tags
   if(addiRT){
     message("Adding iRT peptides...")
     fasta_df <- rbind(fasta_df, iRT)
   }
   if(addcRAP){
     message("Adding cRAP peptides...")
-    fasta_df <- rbind(fasta_df, cRAP_tags)
+    fasta_df <- rbind(fasta_df, cRap_tags)
   }
   message("Writing output...")
   fasta_df$header <- substr(fasta_df$header,2,nchar(fasta_df$header))
