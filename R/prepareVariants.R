@@ -83,34 +83,34 @@ VariantSummaryReport <- function(snv_and_indel, ids, txdb, print = TRUE){
     pdf("Variant_summary_report.pdf", width = 6, height = 4)
     # SNV's
     plot_df <- data.table(Position = names(output[[1]][-3]), SNVs = as.numeric(output[[1]][-3]), AA_Impact = FALSE)
-    coding_df <- data.table(Position = "Coding", 
+    coding_df <- data.table(Position = "Coding",
                             SNVs =c(nrow(unique(snv_and_indel$SNV_tab[snv_and_indel$SNV_tab$vartype == "synonymous",c("pos", "chr")])),
                                     nrow(unique(snv_and_indel$SNV_tab[snv_and_indel$SNV_tab$vartype == "non-synonymous",c("pos", "chr")]))),
                             AA_Impact = c(FALSE, TRUE))
     plot_df <- rbind(plot_df, coding_df)
-    p <- ggplot(plot_df) + 
-      geom_bar(aes(x=Position, y=SNVs, fill = AA_Impact), stat = "identity") + 
+    p <- ggplot(plot_df) +
+      geom_bar(aes(x=Position, y=SNVs, fill = AA_Impact), stat = "identity") +
       ggtitle(paste0("Location of ", names(output)[1],"s")) +
       theme(axis.text.x = element_text(angle=30, hjust=1, vjust=1)) +
       ylab(paste0("# of ", names(output[1])))
-    print(p)  
+    print(p)
     # Indels
     plot_df2 <- data.table(Position = names(output[[2]]), SNVs = as.numeric(output[[2]]),
                           AA_Impact = c(F,F,T,F,F,F,F))
-    p2 <- ggplot(plot_df2) + 
-      geom_p(aes(x=Position, y=SNVs, fill = AA_Impact), stat = "identity") + 
+    p2 <- ggplot(plot_df2) +
+      geom_p(aes(x=Position, y=SNVs, fill = AA_Impact), stat = "identity") +
       ggtitle(paste0("Location of ", names(output)[2],"s")) +
       theme(axis.text.x = element_text(angle=30, hjust=1, vjust=1)) +
       ylab(paste0("# of ", names(output[2])))
-    
+
     # pl <- rbind(plot_df[, Variation_type := "SNV"], plot_df2[, Variation_type := "INDEL"])
-    # p <- ggplot(pl) + 
-    #   geom_bar(aes(x=Position, y=SNVs, fill = AA_Impact), stat = "identity") + 
+    # p <- ggplot(pl) +
+    #   geom_bar(aes(x=Position, y=SNVs, fill = AA_Impact), stat = "identity") +
     #   ggtitle(paste0("Location of ", names(output)[2],"s")) +
     #   theme(axis.text.x = element_text(angle=30, hjust=1, vjust=1)) +
     #   ylab(paste0("# of ", names(output[2]))) +
     #   facet_grid(. ~ Variation_type)
-    print(p2)  
+    print(p2)
     dev.off()
   } else{
     return(output)
@@ -124,7 +124,7 @@ VariantSummaryReport <- function(snv_and_indel, ids, txdb, print = TRUE){
 #' @param vcf_dir Path to folder with all replicate vcf files
 #' @param pattern pattern to match
 #' @import data.table
-#' @import vennDiagram
+#' @import VennDiagram
 #' @export
 
 plotSNVReplicateOverlap <- function(vcf_dir = vcf_directory, pattern = ".vcf$", outfile = "SNVReplicate_overlap.tiff"){

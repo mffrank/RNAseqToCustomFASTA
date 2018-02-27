@@ -87,7 +87,7 @@ junctionSummaryReport <- function(junction_type, pdf = TRUE, outfile = "Junction
 #' @param bed_directory Path to folder with all replicate vcf files
 #' @param pattern pattern to match
 #' @import data.table
-#' @import vennDiagram
+#' @import VennDiagram
 #' @export
 
 plotJuncReplicateOverlap <- function(bed_directory, pattern = "\\.tab", outfile = "SJ_Replicate_overlap.tiff"){
