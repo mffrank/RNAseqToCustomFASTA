@@ -7,5 +7,5 @@ Description: Takes expression values, splice junctions, SNPs and INDELs as input
     to produce a protein fasta file that can be used to search Mass spectrometry
     results.
 License: MIT
-LazyData: FALSE
+LazyData: true
 RoxygenNote: 6.0.1
