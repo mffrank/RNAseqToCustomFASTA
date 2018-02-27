@@ -12,4 +12,3 @@ getCufflinksgtfFPKM(gtf_file_path)
 \description{
 Takes Cufflinks gtf output files as input and outputs a named numeric vector (names = Transcript/gene id, value = FPKM)
 }
-

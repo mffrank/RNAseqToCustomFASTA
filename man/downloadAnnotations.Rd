@@ -15,4 +15,3 @@ downloadAnnotations(annotation_path, archive = FALSE,
 Download transcriptome annotatin from Ensemblin a format that customProDB can use
 This Uses the import function from CustomProDB in combination with BioMart and can take a few hours.
 }
-

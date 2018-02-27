@@ -17,4 +17,3 @@ getAltSpliceProteins(jun, exon, procodingseq)
 Uses junction table to produce spliced sequences of known transcripts. A protein is produced when a
 junction connects two of its exons that are not adjacent.
 }
-

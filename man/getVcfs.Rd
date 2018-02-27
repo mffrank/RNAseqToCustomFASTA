@@ -21,4 +21,3 @@ Read Vcf files to GRanges
 Takes VCF output files from variant calling pipeline and combines
  a GRanges object ready for fasta generation.
 }
-

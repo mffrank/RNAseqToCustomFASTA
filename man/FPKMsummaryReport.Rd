@@ -21,4 +21,3 @@ Print Pdf with plots to help evaluate FPKM distribution
 \details{
 Plots a Histograms and sd vs. FPKM
 }
-

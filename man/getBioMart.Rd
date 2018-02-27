@@ -15,4 +15,3 @@ Download uniprot ids from BioMart
 \details{
 internal function
 }
-

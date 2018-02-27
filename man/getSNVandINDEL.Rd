@@ -19,4 +19,3 @@ Annotate Variants
 \details{
 Annotates the variants in a granges object produced by getVcfs
 }
-

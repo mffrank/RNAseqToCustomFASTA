@@ -15,4 +15,3 @@ getCufflinksFPKM(files, filetype = c("isoforms.fpkm_tracking",
 \description{
 Takes multiple Cufflinks output files as input and outputs a data.frame with FPKM values
 }
-

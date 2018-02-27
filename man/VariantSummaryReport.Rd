@@ -24,4 +24,3 @@ Prints a table of the location of the variants. Caution:
 Because the Varlocation function of CustomProDB is very slow, this takes a long time
 to compute.
 }
-

@@ -15,4 +15,3 @@ Scatterplot of sd vs log transformed expression
 \details{
 Log transforms expression, calculates sd and plots it over expression dimension
 }
-

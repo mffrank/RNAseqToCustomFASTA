@@ -25,4 +25,3 @@ Generate a Junction Summary Report
 \details{
 Saves a table of the types of the Splice junctions to working directory
 }
-

@@ -24,4 +24,3 @@ Matches rownames of fpkm table to protein ids with a mapping table (has to be su
 
 Rows with no matching protein id are discarded
 }
-

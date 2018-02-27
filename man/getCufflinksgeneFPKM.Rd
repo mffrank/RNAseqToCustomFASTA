@@ -12,4 +12,3 @@ getCufflinksgeneFPKM(genes.fpkm_tracking_file_path)
 \description{
 Takes Cufflinks genes.fpkm_tracking output files as input and outputs a named numeric vector (names = Transcript/gene id, value = FPKM)
 }
-

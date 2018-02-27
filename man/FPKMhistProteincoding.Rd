@@ -17,4 +17,3 @@ Output Histogram of FPKM values for protein-coding vs. non protein coding
 \details{
 Plots a Histogram with the 30% quantile as a vertical line
 }
-

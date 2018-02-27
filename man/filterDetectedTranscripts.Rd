@@ -17,4 +17,3 @@ Filter FPKM Table
 \details{
 Filters out all rows where transcripts are detected in every sample
 }
-

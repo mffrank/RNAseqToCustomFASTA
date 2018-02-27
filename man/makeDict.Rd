@@ -18,4 +18,3 @@ makeDict(ids, mapping_table, query_id_type, map_id_type)
 \description{
 internal, makes named vector dict
 }
-

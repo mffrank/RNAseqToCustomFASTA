@@ -5,7 +5,7 @@
 \title{Concatenate all fastas in a Folder.}
 \usage{
 concatenateFastas(path, pattern = "\\\\.fa", outfile = "combined.fasta",
-  addcRAP = TRUE, addiRT = TRUE)
+  addcRAP = TRUE, addiRT = TRUE, saveMappingTable = TRUE)
 }
 \arguments{
 \item{path}{Path to file containing folder}
@@ -22,4 +22,3 @@ concatenateFastas(path, pattern = "\\\\.fa", outfile = "combined.fasta",
 Can be used to produce a single Fasta ready for library generation.
 File is saved in the path directory.
 }
-

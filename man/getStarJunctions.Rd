@@ -15,4 +15,3 @@ getStarJunctions(SJout_dir, splicemax, txdb, ids, pattern = "\\\\.tab",
 Takes STAR output files (SJ.out.tab as input and outputs a
 named numeric vector (names = Transcript/gene id, value = FPKM)
 }
-

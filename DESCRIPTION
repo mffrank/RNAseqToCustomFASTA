@@ -8,4 +8,4 @@ Description: Takes expression values, splice junctions, SNPs and INDELs as input
     results.
 License: MIT
 LazyData: FALSE
-RoxygenNote: 5.0.1
+RoxygenNote: 6.0.1

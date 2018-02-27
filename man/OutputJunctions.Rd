@@ -18,4 +18,3 @@ OutputJunctions(outfile, juncs, exons, procodingseq, proteinseq, genome,
 Takes STAR output files (SJ.out.tab as input and outputs a
 named numeric vector (names = Transcript/gene id, value = FPKM)
 }
-

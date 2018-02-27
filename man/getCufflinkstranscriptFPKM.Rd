@@ -12,4 +12,3 @@ getCufflinkstranscriptFPKM(isoforms.fpkm_tracking_file_path)
 \description{
 Takes Cufflinks isoforms.fpkm_tracking output files as input and outputs a named numeric vector (names = Transcript/gene id, value = FPKM)
 }
-
