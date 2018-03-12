@@ -76,9 +76,12 @@ concatenateFastas <- function(path, pattern = "\\.fa", outfile = "combined.fasta
 
   n_positions <- grep("[n]", fasta_df$sequence)
   # fasta_df[n_positions,"sequence"] <- gsub("n","X",fasta_df[n_positions,"sequence"])
-  fasta_df <- fasta_df[-n_positions,]
-  message(paste0("\nWarning: removed ", fasta_df[n_positions,header], " from db. Ambigous(n) AAs \n\n"),
-          paste0("Removed ", length(n_positions), " Sequences in total"))
+  if(length(n_positions) > 0){
+    fasta_df <- fasta_df[-n_positions,]
+    message(paste0("\nWarning: removed ", fasta_df[n_positions,header], " from db. Ambigous(n) AAs \n\n"),
+            paste0("Removed ", length(n_positions), " Sequences in total"))
+
+  }
 
   if(saveMappingTable){
     fasta_df$protein <- .getProtein(fasta_df)
