@@ -43,11 +43,11 @@ concatenateFastas <- function(path, pattern = "\\.fa", outfile = "combined.fasta
   files <- list.files(path = path, pattern = pattern)
   files <- files[! files == outfile]
 
-  fasta_list <- lapply(files, function(x) readLines(file(paste0(path,"/",x))))
-  closeAllConnections()
-  fasta_list <- lapply(fasta_list, function(x){
-    data.table(header = x[seq(1,length(x),by = 2)],
-               sequence = x[seq(2,length(x),by = 2)],
+  fasta_list <- lapply(files, function(x) read.fasta(paste0(path,"/",x), as.string = T, seqtype = "AA"))
+
+  fasta_list <- lapply(fasta_list, function(f){
+    data.table(header = sapply(f, function(x) attr(x, "Annot")),
+               sequence = unlist(f),
                stringsAsFactors = F)
   })
   names(fasta_list) <- gsub("\\..*","", files)
@@ -67,6 +67,7 @@ concatenateFastas <- function(path, pattern = "\\.fa", outfile = "combined.fasta
 
   message("Combining ", paste("\n",files), "\n into ", outfile)
   fasta_df <- do.call("rbind", fasta_list)
+  fasta_df <- as.data.table(fasta_df)
 
   message("Mapping headers to gene level...")
   fasta_df$gene <- .getGene(fasta_df)
@@ -104,7 +105,7 @@ concatenateFastas <- function(path, pattern = "\\.fa", outfile = "combined.fasta
   # write(allfasta, file = paste0(path,outfile))
 }
 
-
+#' @import data.table
 .mapToGeneLevel <- function(fasta_list){
   # Canonical Proteins
   can_idx <- which(sapply(fasta_list, function(x) grepl("ENSP[0-9]* ",x[1,1])))
@@ -130,12 +131,13 @@ concatenateFastas <- function(path, pattern = "\\.fa", outfile = "combined.fasta
   return(fasta_list)
   }
 
+#' @import data.table
 .getGene <- function(fasta){
   canidx <- grep("ENSP[0-9]* ", fasta$header)
   juncidx <- grep(">JUNC", fasta$header)
   rest <- setdiff(1:nrow(fasta), c(canidx, juncidx))
-  can_gene <- sapply(strsplit(fasta[canidx]$header, split = "\\|"), "[",4)
-  nocan_gene <- sapply(strsplit(fasta[rest]$header, split = "\\|"), "[",3)
+  can_gene <- sapply(strsplit(fasta[canidx,]$header, split = "\\|"), "[",4)
+  nocan_gene <- sapply(strsplit(fasta[rest,]$header, split = "\\|"), "[",3)
   out <- vector()
   out[canidx] <- can_gene
   out[juncidx] <- NaN
@@ -143,6 +145,7 @@ concatenateFastas <- function(path, pattern = "\\.fa", outfile = "combined.fasta
   return(out)
 }
 
+#' @import data.table
 .getIsoform <- function(fasta, can = F){
 
   setkey(fasta, gene, sequence)
@@ -162,6 +165,7 @@ concatenateFastas <- function(path, pattern = "\\.fa", outfile = "combined.fasta
  return(iso)
 }
 
+#' @import data.table
 .changeHeaders <- function(fasta){
   fasta$header_old <- fasta$header
   canidx <- grep("ENSP[0-9]* ", fasta$header)
@@ -181,7 +185,7 @@ concatenateFastas <- function(path, pattern = "\\.fa", outfile = "combined.fasta
   return(fasta)
 }
 
-
+#' @import data.table
 saveMappingTable <- function(path, pattern = "\\.fa", outfile = "header_mapping_table.rda"){
   files <- list.files(path = path, pattern = pattern)
   files <- files[! files == outfile]
@@ -233,6 +237,7 @@ saveMappingTable <- function(path, pattern = "\\.fa", outfile = "header_mapping_
   return(prot)
 }
 
+#' @import data.table
 .mergeIdenticalSeq <- function(fasta_list){
   can_idx <- which(sapply(fasta_list, function(x) grepl("ENSP[0-9]* ",x[1,1])))
   dupseq <- unique(fasta_list[[can_idx]][duplicated(fasta_list[[can_idx]]$sequence),sequence])
@@ -284,8 +289,12 @@ saveMappingTable <- function(path, pattern = "\\.fa", outfile = "header_mapping_
 #' @export
 
 finishFasta <- function(file, outfile = paste0(file,"iRT_cRAP.fasta"), removeStars = T, addcRAP = TRUE, addiRT = TRUE){
-  fasta <- readLines(file)
-  closeAllConnections()
+  # fasta <- readLines(file)
+  # closeAllConnections()
+  f <- read.fasta(file, as.string = T, seqtype = "AA")
+  fasta <- data.table(header = sapply(f, function(x) attr(x, "Annot")),
+                      sequence = unlist(f),
+                      stringsAsFactors = F)
 
   fasta <- data.table(header = fasta[seq(1,length(fasta),by = 2)],
                            sequence = fasta[seq(2,length(fasta),by = 2)],
