@@ -299,10 +299,6 @@ finishFasta <- function(file, outfile = paste0(file,"iRT_cRAP.fasta"), removeSta
                       sequence = unlist(f),
                       stringsAsFactors = F)
 
-  fasta <- data.table(header = fasta[seq(1,length(fasta),by = 2)],
-                           sequence = fasta[seq(2,length(fasta),by = 2)],
-                           stringsAsFactors = F)
-
   # Remove stars at end positions
   if(removeStars){
     message("Removing stars at sequence ends...")
